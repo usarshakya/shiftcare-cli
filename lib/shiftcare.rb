@@ -1,20 +1,22 @@
 require 'json'
+require_relative 'shiftcare/client'
 
 def load_clients(file)
   json = File.read(file)
-  JSON.parse(json)
+  parsed = JSON.parse(json)
+  parsed.map { |attrs| Shiftcare::Client.new(attrs) }
 end
 
 # Method to search client by full_name
 def search_clients(clients, query)
   clients.select do |client|
-    client['full_name'].to_s.downcase.include?(query.downcase)
+    client.full_name.to_s.downcase.include?(query.downcase)
   end
 end
 
 # Method to find_duplicate emails
 def find_duplicate_emails(clients)
-  groups = clients.group_by { |c| c['email'].to_s.downcase.strip }
+  groups = clients.group_by { |c| c.email.to_s.downcase.strip }
   groups.select { |_, group| group.size > 1 }
 end
 
@@ -23,7 +25,7 @@ clients = load_clients('clients.json')
 
 if command == 'search' && ARGV[1]
   results = search_clients(clients, ARGV[1])
-  results.each { |c| puts "ID:#{c['id']}, Full Name: #{c['full_name']}, Email: #{c['email']}" }
+  results.each { |client| puts client.formatted_info }
 elsif command == 'duplicates'
   duplicates = find_duplicate_emails(clients)
   if duplicates.empty?
@@ -31,7 +33,7 @@ elsif command == 'duplicates'
   else
     duplicates.each do |email, group|
       puts "Duplicate email: #{email}"
-      group.each { |c| puts "  - ID: #{c['id']}, Full Name: #{c['full_name']}" }
+      group.each { |client| puts client.formatted_info }
     end
   end
 else
