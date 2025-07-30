@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Shiftcare
+  # This provides functionality to find clients with duplicate email addresses.
   class DulicateEmailFinder
     def self.find_duplicate_emails(clients)
       groups = clients.group_by { |c| c.email.to_s.downcase.strip }

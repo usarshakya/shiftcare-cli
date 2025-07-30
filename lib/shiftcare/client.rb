@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Shiftcare
+  # This represents a client
   class Client
     attr_reader :id, :full_name, :email
 
