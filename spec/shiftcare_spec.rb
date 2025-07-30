@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'shiftcare'
 
 RSpec.describe Shiftcare::CLI do
@@ -6,7 +8,7 @@ RSpec.describe Shiftcare::CLI do
     allow(Shiftcare::Loader).to receive(:load).and_return([client])
     allow(Shiftcare::NameSearcher).to receive(:search).and_return([client])
 
-    cli = described_class.new(['search', 'query'])
+    cli = described_class.new(%w[search query])
     expect { cli.run }.to output(/Client Info/).to_stdout
   end
 

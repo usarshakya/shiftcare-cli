@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'shiftcare/client'
 
 RSpec.describe Shiftcare::Client do

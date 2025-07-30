@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'shiftcare/duplicate_email_finder'
 require 'shiftcare/client'
 
