@@ -5,7 +5,7 @@ require_relative 'shiftcare/loader'
 require_relative 'shiftcare/name_searcher'
 require_relative 'shiftcare/duplicate_email_finder'
 
-module ShiftCare
+module Shiftcare
   # This handles interactions for searching clients and finding duplicate emails.
   class CLI
     def initialize(args)
@@ -25,7 +25,7 @@ module ShiftCare
         results = Shiftcare::NameSearcher.search(clients, query)
         results.each { |client| puts client.formatted_info }
       when 'duplicates'
-        dups = Shiftcare::DulicateEmailFinder.find_duplicate_emails(clients)
+        dups = Shiftcare::DuplicateEmailFinder.find_duplicate_emails(clients)
         if dups.empty?
           puts 'There are no duplicate emails found'
         else
@@ -43,4 +43,4 @@ module ShiftCare
   end
 end
 
-ShiftCare::CLI.new(ARGV).run if __FILE__ == $PROGRAM_NAME
+Shiftcare::CLI.new(ARGV).run if __FILE__ == $PROGRAM_NAME
